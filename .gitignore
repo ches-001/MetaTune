@@ -4,5 +4,6 @@ tests/nb_test.ipynb
 temp.py
 .gitignore
 .pytest_cache
+.venv
 metatune/
 assets/
