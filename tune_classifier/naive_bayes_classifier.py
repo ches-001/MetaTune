@@ -1,8 +1,7 @@
 from ..baseline import BaseTuner
 from optuna.trial import Trial
-from dataclasses import dataclass
-from typing import Callable,Iterable, Optional, Dict, Any, Union
-from types import MappingProxyType
+from dataclasses import dataclass, field
+from typing import Iterable, Optional, Dict, Any, Union
 from sklearn.naive_bayes import (
     BernoulliNB, 
     GaussianNB, 
@@ -14,7 +13,7 @@ from sklearn.naive_bayes import (
 @dataclass
 class GaussianNBTuner(BaseTuner):
     priors_space: Iterable[Optional[Iterable[float]]] = (None,) 
-    var_smoothing_space: Dict[str, Any] = MappingProxyType({"low":1e-10, "high":1e-6, "step":None, "log":True})
+    var_smoothing_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-10, "high":1e-6, "step":None, "log":True})
     
     def sample_params(self, trial: Optional[Trial] = None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -37,10 +36,10 @@ class GaussianNBTuner(BaseTuner):
 
 @dataclass
 class BernoulliNBTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     force_alpha_space: Iterable[bool] = (True, False)
     set_binarize_space: Iterable[bool] = (True, False)
-    binarize_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    binarize_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     fit_prior_space: Iterable[bool] = (True, False)
     class_prior_space: Iterable[Optional[Iterable[float]]] = (None, )    #TODO: Implement array selections
 
@@ -72,7 +71,7 @@ class BernoulliNBTuner(BaseTuner):
         
 @dataclass
 class MultinomialNBTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})   
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})   
     force_alpha_space: Iterable[bool] = (True, False)
     fit_prior_space: Iterable[bool] = (True, False)
     class_prior_space: Iterable[Optional[Iterable[float]]] = (None, )
@@ -99,7 +98,7 @@ class MultinomialNBTuner(BaseTuner):
 
 @dataclass
 class ComplementNBTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     force_alpha_space: Iterable[bool] = (True, False)
     fit_prior_space: Iterable[bool] = (True, False)
     class_prior_space: Iterable[Optional[Iterable[float]]] = (None, )
@@ -129,7 +128,7 @@ class ComplementNBTuner(BaseTuner):
         
 @dataclass
 class CategoricalNBTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     force_alpha_space: Iterable[bool] = (True, False)
     fit_prior_space: Iterable[bool] = (True, False)
     class_prior_space: Iterable[Optional[Iterable[float]]] = (None,)

@@ -2,8 +2,7 @@ import numpy as np
 from ..baseline import BaseTuner
 from optuna.trial import Trial
 from dataclasses import dataclass, field
-from typing import Iterable, Optional, Dict, Any, Union, Callable
-from types import MappingProxyType
+from typing import Iterable, Optional, Dict, Any, Union
 from sklearn.linear_model import (
     LinearRegression,
     Lasso, 
@@ -55,13 +54,13 @@ class LinearRegressionTuner(BaseTuner):
 
 @dataclass
 class LassoTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     positive_space: Iterable[bool] = (True, False)
     selection_space: Iterable[str] = ("cyclic", "random")
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -90,13 +89,13 @@ class LassoTuner(BaseTuner):
  
 @dataclass
 class RidgeTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     solver_space: Iterable[str] = ("auto", "svd", "cholesky", "lsqr", "sparse_cg", "sag", "saga", "lbfgs")
     positive_space: Iterable[bool] = (True, False)
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -125,15 +124,15 @@ class RidgeTuner(BaseTuner):
 
 @dataclass
 class ElasticNetTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
-    l1_ratio_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
+    l1_ratio_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     fit_intercept_space: Iterable[bool] = (True, False)
     precompute_space: Iterable[Union[bool, Iterable]] = (True, False, )
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     positive_space: Iterable[bool] = (True, False)
     selection_space: Iterable[str] = ("cyclic", "random")
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -163,12 +162,12 @@ class ElasticNetTuner(BaseTuner):
 
 @dataclass
 class MultiTaskLassoTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     selection_space: Iterable[str] = ("cyclic", "random")
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     is_multitask: str = field(init=False, default=True)
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -196,13 +195,13 @@ class MultiTaskLassoTuner(BaseTuner):
 
 @dataclass
 class MultiTaskElasticNetTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
-    l1_ratio_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
+    l1_ratio_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     selection_space: Iterable[str] = ("cyclic", "random")
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     is_multitask: str = field(init=False, default=True)
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -234,11 +233,11 @@ class MultiTaskElasticNetTuner(BaseTuner):
 class LarsTuner(BaseTuner):
     fit_intercept_space: Iterable[bool] = (True, False)
     precompute_space: Iterable[bool] = (True, False)
-    n_nonzero_coefs_space: Dict[str, Any] = MappingProxyType({"low":1, "high":500, "step":1, "log":True})
-    eps_space: Dict[str, Any] = MappingProxyType({"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
+    n_nonzero_coefs_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":500, "step":1, "log":True})
+    eps_space: Dict[str, Any] = field(default_factory=lambda: {"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
     set_jitter_space: Iterable[bool] = (True, False)
-    jitter_space: Dict[str, Any] = MappingProxyType({"low":1e-8, "high":1e-3, "step":None, "log":True})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    jitter_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-8, "high":1e-3, "step":None, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -266,15 +265,15 @@ class LarsTuner(BaseTuner):
 
 @dataclass
 class LassoLarsTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
     fit_intercept_space: Iterable[bool] = (True, False)
     precompute_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    eps_space: Dict[str, Any] = MappingProxyType({"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    eps_space: Dict[str, Any] = field(default_factory=lambda: {"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
     positive_space: Iterable[bool] = (True, False)
     set_jitter_space: Iterable[bool] = (True, False)
-    jitter_space: Dict[str, Any] = MappingProxyType({"low":1e-8, "high":1e-3, "step":None, "log":True})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    jitter_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-8, "high":1e-3, "step":None, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -307,11 +306,11 @@ class LassoLarsICTuner(BaseTuner):
     criterion_sapce: Iterable[str] = ("aic", "bic")
     fit_intercept_space: Iterable[bool] = (True, False)
     precompute_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    eps_space: Dict[str, Any] = MappingProxyType({"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    eps_space: Dict[str, Any] = field(default_factory=lambda: {"low":np.finfo(float).eps, "high":1e-10, "step":None, "log":True})
     positive_space: Iterable[bool] = (True, False)
     set_noise_variance_space: Iterable[bool] = (True, False)
-    noise_variance_space: Dict[str, Any] = MappingProxyType({"low":1e-8, "high":1e-3, "step":None, "log":True})
+    noise_variance_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-8, "high":1e-3, "step":None, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -340,15 +339,15 @@ class LassoLarsICTuner(BaseTuner):
 
 @dataclass
 class BayesianRidgeTuner(BaseTuner):
-    n_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    alpha_1_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    alpha_2_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    lambda_1_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    lambda_2_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    n_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    alpha_1_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    alpha_2_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    lambda_1_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    lambda_2_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     set_alpha_init_space: Iterable[bool] = (True, False)
-    alpha_init_space: Iterable[bool] = MappingProxyType({"low":1e-8, "high":1.0, "step":None, "log":True})
-    lambda_init_space: Dict[str, Any] = MappingProxyType({"low":1e-8, "high":1.0, "step":None, "log":True})
+    alpha_init_space: Iterable[bool] = field(default_factory=lambda: {"low":1e-8, "high":1.0, "step":None, "log":True})
+    lambda_init_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-8, "high":1.0, "step":None, "log":True})
     compute_score_space: Iterable[bool] = (True, False)
     fit_intercept_space: Iterable[bool] = (True, False)
     
@@ -382,13 +381,13 @@ class BayesianRidgeTuner(BaseTuner):
 
 @dataclass
 class ARDRegressionTuner(BaseTuner):
-    n_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    alpha_1_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    alpha_2_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    lambda_1_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    lambda_2_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    threshold_lambda_space: Dict[str, Any] = MappingProxyType({"low":1e3, "high":1e5, "step":None, "log":True})
+    n_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    alpha_1_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    alpha_2_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    lambda_1_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    lambda_2_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    threshold_lambda_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e3, "high":1e5, "step":None, "log":True})
     compute_score_space: Iterable[bool] = (True, False)
     fit_intercept_space: Iterable[bool] = (True, False)
     
@@ -418,8 +417,8 @@ class ARDRegressionTuner(BaseTuner):
 @dataclass
 class OrthogonalMatchingPursuitTuner(BaseTuner):
     set_nonzero_coefs_space: Iterable[bool] = (True, False)
-    n_nonzero_coefs_space: Dict[str, Any] = MappingProxyType({"low":1, "high":500, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    n_nonzero_coefs_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":500, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
     precompute_space: Iterable[bool] = (True, False)
     
@@ -447,17 +446,17 @@ class OrthogonalMatchingPursuitTuner(BaseTuner):
 
 @dataclass
 class PassiveAggressiveRegressorTuner(BaseTuner):
-    C_space: Dict[str, Any] = MappingProxyType({"low":0.9, "high":1.0, "step":None, "log":False})
+    C_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.9, "high":1.0, "step":None, "log":False})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     early_stopping_space: Iterable[bool] = (True, False)
-    validation_fraction_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":0.5, "step":None, "log":False})
-    n_iter_no_change_space: Dict[str, Any] = MappingProxyType({"low":1, "high":100, "step":1, "log":False})
+    validation_fraction_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":0.5, "step":None, "log":False})
+    n_iter_no_change_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":100, "step":1, "log":False})
     shuffle_space: Iterable[bool] = (True, False)
     loss_space: Iterable[str] = ("epsilon_insensitive", )
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
-    epsilon_space: Dict[str, Any] = MappingProxyType({"low":0.05, "high":0.5, "step":None, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
+    epsilon_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.05, "high":0.5, "step":None, "log":True})
     average_space: Iterable[bool] = (True, False)
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -493,8 +492,8 @@ class PassiveAggressiveRegressorTuner(BaseTuner):
 
 @dataclass
 class QuantileRegressorTuner(BaseTuner):
-    quantile_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1.0, "step":None, "log":True})
+    quantile_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
     solver_space: Iterable[str] = ("highs-ds", "highs-ipm", "highs", "revised simplex")
     solver_options_space: Iterable[Optional[Dict[str, Any]]] = (None, )
@@ -528,20 +527,20 @@ class SGDRegressorTuner(BaseTuner):
         "epsilon_insensitive", 
         "squared_epsilon_insensitive")
     penalty_space: Iterable[str] = ("l1", "l2", "elasticnet", None)
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":1e-5, "high":1.0, "step":None, "log":True})
-    l1_ratio_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-5, "high":1.0, "step":None, "log":True})
+    l1_ratio_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     shuffle_space: Iterable[bool] = (True, False)
-    epsilon_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    epsilon_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     learning_rate_space: Iterable[str] = ("constant", "optimal", "invscaling", "adaptive")
-    eta0_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    power_t_space: Dict[str, Any] = MappingProxyType({"low":-1.0, "high":1.0, "step":None, "log":False})
+    eta0_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    power_t_space: Dict[str, Any] = field(default_factory=lambda: {"low":-1.0, "high":1.0, "step":None, "log":False})
     early_stopping_space: Iterable[bool] = (True, False)
-    validation_fraction_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":0.5, "step":None, "log":False})
-    n_iter_no_change_space: Dict[str, Any] = MappingProxyType({"low":1, "high":100, "step":1, "log":False})
+    validation_fraction_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":0.5, "step":None, "log":False})
+    n_iter_no_change_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":100, "step":1, "log":False})
     average_space: Iterable[bool] = (True, False)
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -582,11 +581,11 @@ class SGDRegressorTuner(BaseTuner):
 
 @dataclass
 class PoissonRegressorTuner(BaseTuner):
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":1e-5, "high":1.0, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-5, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
     solver_space: Iterable[str] = ("lbfgs", "newton-cholesky")
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":2000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":2000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -626,13 +625,13 @@ class GammaRegressorTuner(PoissonRegressorTuner):
 
 @dataclass
 class TweedieRegressorTuner(BaseTuner):
-    power_space: Dict[str, Any] = MappingProxyType({"low":1e-5, "high":3.0, "step":None, "log":True})
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":1e-5, "high":1.0, "step":None, "log":True})
+    power_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-5, "high":3.0, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-5, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
     link_space: Iterable[str] = ("auto", "identity", "log")
     solver_space: Iterable[str] = ("lbfgs", "newton-cholesky")
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     model: Any = None
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -660,11 +659,11 @@ class TweedieRegressorTuner(BaseTuner):
 
 @dataclass
 class HuberRegressorTuner(BaseTuner):
-    epsilon_space: Dict[str, Any] = MappingProxyType({"low":1.0, "high":10.0, "step":None, "log":True})
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":1e-5, "high":1.0, "step":None, "log":True})
+    epsilon_space: Dict[str, Any] = field(default_factory=lambda: {"low":1.0, "high":10.0, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-5, "high":1.0, "step":None, "log":True})
     fit_intercept_space: Iterable[bool] = (True, False)
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
     model: Any = None
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -690,12 +689,12 @@ class HuberRegressorTuner(BaseTuner):
 @dataclass
 class TheilSenRegressorTuner(BaseTuner):
     fit_intercept_space: Iterable[bool] = (True, False)
-    max_subpopulation_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1e5, "step":1, "log":True})
+    max_subpopulation_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1e5, "step":1, "log":True})
     set_n_subsamples_space: Iterable[bool] = (False, )
-    n_subsamples_space: Optional[Dict[str, Any]] = MappingProxyType({"low":1, "high":40, "step":1, "log":True})
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":100, "high":300, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    n_subsamples_space: Optional[Dict[str, Any]] = field(default_factory=lambda: {"low":1, "high":40, "step":1, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":300, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     model: Any = None
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
@@ -726,14 +725,14 @@ class TheilSenRegressorTuner(BaseTuner):
 @dataclass
 class RANSACRegressorTuner(BaseTuner):
     estimator: Optional[Union[RegressorMixin, BaseEstimator]] = None
-    min_samples_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
-    residual_threshold_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
-    max_trials_space: Dict[str, Any] = MappingProxyType({"low":100, "high":1000, "step":1, "log":True})
-    max_skips_space: Dict[str, Any] = MappingProxyType({"low":1, "high":1e5, "step":1, "log":True})
-    stop_n_inliers_space: Dict[str, Any] = MappingProxyType({"low":1, "high":1e5, "step":1, "log":True})
-    stop_score_space: Dict[str, Any] = MappingProxyType({"low":1.0, "high":1e5, "step":None, "log":True})
-    stop_probability_space: Dict[str, Any] = MappingProxyType({"low":0.5, "high":0.99, "step":None, "log":False})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    min_samples_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
+    residual_threshold_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
+    max_trials_space: Dict[str, Any] = field(default_factory=lambda: {"low":100, "high":1000, "step":1, "log":True})
+    max_skips_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":1e5, "step":1, "log":True})
+    stop_n_inliers_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":1e5, "step":1, "log":True})
+    stop_score_space: Dict[str, Any] = field(default_factory=lambda: {"low":1.0, "high":1e5, "step":None, "log":True})
+    stop_probability_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.5, "high":0.99, "step":None, "log":False})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     model: Any = None
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:

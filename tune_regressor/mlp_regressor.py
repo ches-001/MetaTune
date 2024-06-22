@@ -1,6 +1,6 @@
 from optuna.trial import Trial
 from dataclasses import dataclass
-from typing import Optional, Dict, Any, Callable
+from typing import Optional, Dict, Any
 from sklearn.neural_network import MLPRegressor
 from ..tune_classifier import MLPClassifierTuner
 

@@ -1,8 +1,7 @@
 from ..baseline import BaseTuner
 from optuna.trial import Trial
-from dataclasses import dataclass
+from dataclasses import dataclass,  field
 from typing import Iterable, Optional, Dict, Any, Union, Callable
-from types import MappingProxyType
 from sklearn.ensemble import (
     RandomForestRegressor, 
     ExtraTreesRegressor, 
@@ -15,24 +14,24 @@ from ..tune_classifier import BaggingClassifierTuner
 
 @dataclass
 class RandomForestRegressorTuner(BaseTuner):
-    n_estimators_space: Dict[str, Any] = MappingProxyType({"low":1, "high":200, "step":1, "log":True})
+    n_estimators_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":200, "step":1, "log":True})
     criterion_space: Iterable[str] = ("squared_error", "absolute_error", "friedman_mse", "poisson")
     set_max_depth_space: Iterable[bool] = (True, False)
-    max_depth_space: Dict[str, Any] = MappingProxyType({"low":10, "high":2000, "step":1, "log":True})
-    min_samples_split_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    min_samples_leaf_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    min_weight_fraction_leaf_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":0.5, "step":None, "log":False})
+    max_depth_space: Dict[str, Any] = field(default_factory=lambda: {"low":10, "high":2000, "step":1, "log":True})
+    min_samples_split_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    min_samples_leaf_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    min_weight_fraction_leaf_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":0.5, "step":None, "log":False})
     max_features_space: Iterable[str] = ("sqrt", "log2", None)
     set_max_leaf_nodes_space: Iterable[bool] = (True, False)
-    max_leaf_nodes_space: Dict[str, Any] = MappingProxyType({"low":2, "high":10000, "step":1, "log":True})
-    min_impurity_decrease_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    max_leaf_nodes_space: Dict[str, Any] = field(default_factory=lambda: {"low":2, "high":10000, "step":1, "log":True})
+    min_impurity_decrease_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     bootstrap_space: Iterable[bool] = (True, False)
     oob_score_space: Iterable[bool] = (True, False)
     set_random_state_space: Iterable[bool] = (False, )
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
-    ccp_alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
+    ccp_alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     set_max_samples_space: Iterable[bool] = (True, False)
-    max_samples_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
+    max_samples_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -115,10 +114,10 @@ class ExtraTreesRegressorTuner(RandomForestRegressorTuner):
 @dataclass
 class AdaBoostRegressorTuner(BaseTuner):
     estimator_space: Iterable[Optional[object]] = (None, )
-    n_estimators_space: Dict[str, Any] = MappingProxyType({"low":1, "high":200, "step":1, "log":True})
-    learning_rate_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1, "step":None, "log":True})
+    n_estimators_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":200, "step":1, "log":True})
+    learning_rate_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1, "step":None, "log":True})
     loss_space: Iterable[str] = ("linear", "square", "exponential")
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -144,27 +143,27 @@ class AdaBoostRegressorTuner(BaseTuner):
 @dataclass
 class GradientBoostingRegressorTuner(BaseTuner):
     loss_space: Iterable[str] = ("squared_error", "absolute_error", "huber", "quantile")
-    learning_rate_space: Dict[str, Any] = MappingProxyType({"low":0.001, "high":1.0, "step":None, "log":True})
-    n_estimators_space: Dict[str, Any] = MappingProxyType({"low":1, "high":100, "step":1, "log":True})
-    subsample_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
+    learning_rate_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.001, "high":1.0, "step":None, "log":True})
+    n_estimators_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":100, "step":1, "log":True})
+    subsample_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
     criterion_space: Iterable[str] = ("friedman_mse", "squared_error")
-    min_samples_split_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    min_samples_leaf_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":1.0, "step":None, "log":False})
-    min_weight_fraction_leaf_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":0.5, "step":None, "log":False})
+    min_samples_split_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    min_samples_leaf_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":1.0, "step":None, "log":False})
+    min_weight_fraction_leaf_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":0.5, "step":None, "log":False})
     set_max_depth_space: Iterable[bool] = (True, False)
-    max_depth_space: Dict[str, Any] = MappingProxyType({"low":10, "high":2000, "step":1, "log":True})
-    min_impurity_decrease_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    max_depth_space: Dict[str, Any] = field(default_factory=lambda: {"low":10, "high":2000, "step":1, "log":True})
+    min_impurity_decrease_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     init_space: Iterable[Optional[object]] = (None, )
     max_features_space: Iterable[str] = ("sqrt", "log2")
-    alpha_space: Dict[str, Any] = MappingProxyType({"low":0.01, "high":1, "step":None, "log":True})
+    alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.01, "high":1, "step":None, "log":True})
     set_max_leaf_nodes_space: Iterable[bool] = (True, False)
-    max_leaf_nodes_space: Iterable[Optional[int]] = MappingProxyType({"low":2, "high":10000, "step":1, "log":True})
-    validation_fraction_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":0.5, "step":None, "log":False})
+    max_leaf_nodes_space: Iterable[Optional[int]] = field(default_factory=lambda: {"low":2, "high":10000, "step":1, "log":True})
+    validation_fraction_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":0.5, "step":None, "log":False})
     set_n_iter_no_change_space: Iterable[bool] = (True, False)
-    n_iter_no_change_space: Dict[str, Any] = MappingProxyType({"low":1, "high":100, "step":1, "log":True})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    ccp_alpha_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
+    n_iter_no_change_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":100, "step":1, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    ccp_alpha_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
@@ -246,25 +245,25 @@ class BaggingRegressorTuner(BaggingClassifierTuner):
 @dataclass
 class HistGradientBoostingRegressorTuner(BaseTuner):
     loss_space: Iterable[str] = ("squared_error", "absolute_error", "poisson", "quantile")
-    quantile_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
-    learning_rate_space: Dict[str, Any] = MappingProxyType({"low":0.001, "high":1.0, "step":None, "log":True})
-    max_iter_space: Dict[str, Any] = MappingProxyType({"low":10, "high":1000, "step":1, "log":True})
+    quantile_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
+    learning_rate_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.001, "high":1.0, "step":None, "log":True})
+    max_iter_space: Dict[str, Any] = field(default_factory=lambda: {"low":10, "high":1000, "step":1, "log":True})
     set_max_leaf_nodes_space: Iterable[bool] = (True, False)
-    max_leaf_nodes_space: Iterable[Optional[int]] = MappingProxyType({"low":2, "high":10000, "step":1, "log":True})
+    max_leaf_nodes_space: Iterable[Optional[int]] = field(default_factory=lambda: {"low":2, "high":10000, "step":1, "log":True})
     set_max_depth_space: Iterable[bool] = (True, False)
-    max_depth_space: Dict[str, Any] = MappingProxyType({"low":10, "high":2000, "step":1, "log":True})
-    min_samples_leaf_space: Dict[str, Any] = MappingProxyType({"low":1, "high":200, "step":1, "log":True})
-    l2_regularization_space: Dict[str, Any] = MappingProxyType({"low":0.0, "high":1.0, "step":None, "log":False})
-    max_bins_space: Dict[str, Any] = MappingProxyType({"low":10, "high":255, "step":1, "log":True})
+    max_depth_space: Dict[str, Any] = field(default_factory=lambda: {"low":10, "high":2000, "step":1, "log":True})
+    min_samples_leaf_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":200, "step":1, "log":True})
+    l2_regularization_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.0, "high":1.0, "step":None, "log":False})
+    max_bins_space: Dict[str, Any] = field(default_factory=lambda: {"low":10, "high":255, "step":1, "log":True})
     categorical_features_space: Iterable[Any] = (None, )
     monotonic_cst_space: Iterable[Any] = (None, )
     interaction_cst_space: Iterable[Any] = (None, )
     early_stopping_space: Iterable[bool] = ("auto", True, False)
     scoring_space: Iterable[Optional[Union[str, Callable]]] = ("loss", None)
-    validation_fraction_space: Dict[str, Any] = MappingProxyType({"low":0.1, "high":0.5, "step":None, "log":False})
-    n_iter_no_change_space: Dict[str, Any] = MappingProxyType({"low":1, "high":100, "step":1, "log":True})
-    tol_space: Dict[str, Any] = MappingProxyType({"low":1e-6, "high":1e-3, "step":None, "log":True})
-    random_state_space: Dict[str, Any] = MappingProxyType({"low":1, "high":10000, "step":1, "log":True})
+    validation_fraction_space: Dict[str, Any] = field(default_factory=lambda: {"low":0.1, "high":0.5, "step":None, "log":False})
+    n_iter_no_change_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":100, "step":1, "log":True})
+    tol_space: Dict[str, Any] = field(default_factory=lambda: {"low":1e-6, "high":1e-3, "step":None, "log":True})
+    random_state_space: Dict[str, Any] = field(default_factory=lambda: {"low":1, "high":10000, "step":1, "log":True})
     
     def sample_params(self, trial: Optional[Trial]=None) -> Dict[str, Any]:
         super().sample_params(trial)
