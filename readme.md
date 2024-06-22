@@ -15,7 +15,7 @@ Importing the `MetaTune(...)` class is as easy as:
 ```python
 from metatune import MetaTune
 
-metatune = MetaTune(task="classification")
+tuner = MetaTune(task="classification")
 ```
 
 We can further use this object to select the machine learning algorithm and the corresponding parameters that best model our data like so:
@@ -44,7 +44,7 @@ X_eval = scaler.transform(X_eval)
 
 
 def objective(trial):
-    model = metatune.sample_models_with_params(trial)
+    model = tuner.sample_models_with_params(trial)
     model.fit(X_train, y_train)
 
     pred = model.predict(X_eval)
@@ -76,7 +76,7 @@ In this task, we hope to find the best classification algorithm and its hyperpar
 After running this, we can retrieve the best optuna trial and build a model out of it for further fine-tuning with more data, like so:
 
 ```python
-sampled_model = metatune.build_sampled_model(study.best_trial)
+sampled_model = tuner.build_sampled_model(study.best_trial)
 ```
 **NOTE** that the models returned are purely scikit-learn models, thus the reason the regular `fit(...)` and `predict(...)` methods can be called on them.
 
@@ -148,13 +148,13 @@ sgd_classifier_tuner = SGDClassifierTuner(
     loss_space=('hinge', 'log_loss', 'modified_huber', 'squared_hinge')
 )
 
-metatune = MetaTune(task="classification", custom_tuners=[nu_svc_tuner, sgd_classifier_tuner])
+tuner = MetaTune(task="classification", custom_tuners=[nu_svc_tuner, sgd_classifier_tuner])
 ```
 
 You can view all the tuners in the search space with the `search_space` attribute of the `MataTune` instance like so:
 
 ```python
-metatune.search_space
+tuner.search_space
 ```
 <br>
 
@@ -168,7 +168,7 @@ This argument is used to specify a list of tuners to exempt from the search spac
 ```python
 from metatune.tune_classifier import NuSVCTuner
 
-metatune = MetaTune(task="classification", excluded=[NuSVCTuner, "SGDClassifierTuner"])
+tuner = MetaTune(task="classification", excluded=[NuSVCTuner, "SGDClassifierTuner"])
 ```
 <br>
 
@@ -179,7 +179,7 @@ This is used when you wish to perform parameter searching for a single specific 
 
 from metatune.tune_classifier import GradientBoostingClassifierTuner
 
-metatune = MetaTune(task="classification", single_tuner=GradientBoostingClassifierTuner())
+tuner = MetaTune(task="classification", single_tuner=GradientBoostingClassifierTuner())
 ```
 
 <br>
@@ -237,17 +237,17 @@ The `sample_model(...)` method of your custom tuner must first call the `super()
 You can set the defined custom tuner as only tuner in the search space like so:
 
 ```python
-MetaTune(task="classification", single_tuner=CustomGPCTuner())
+tuner = MetaTune(task="classification", single_tuner=CustomGPCTuner())
 ```
 
 Or
 
 ```python
-MetaTune(task="classification", custom_tuners=[CustomGPCTuner()], custom_only=True)
+tuner = MetaTune(task="classification", custom_tuners=[CustomGPCTuner()], custom_only=True)
 ```
 
 You can also decide to add it to the already existing search space as a new tuner like so:
 
 ```python
-MetaTune(task="classification", custom_tuners=[CustomGPCTuner()], custom_only=False)
+tuner = MetaTune(task="classification", custom_tuners=[CustomGPCTuner()], custom_only=False)
 ```
